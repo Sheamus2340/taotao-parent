@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 配置JDBC的连接配置文件 class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer"
+      class="org.springframework.beans.factory.config.PropertiesFactoryBean"
+      class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"-->
+    <bean id="propertyConfigure"
+          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <!-- 读取不出现异常 -->
+        <property name="ignoreResourceNotFound" value="true"/>
+        <!-- 设置编码格式 -->
+        <property name="fileEncoding" value="UTF-8"/>
+        <property name="locations">
+            <list>
+                <!-- 用于加载DB的配置 -->
+                <value>classpath:resource/db.properties</value>
+                <!-- 用于加载FTP的配置 -->
+                <value>classpath:resource/resource.properties</value>
+            </list>
+        </property>
+    </bean>
+    <!-- 1、数据源的配置 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="#{propertyConfigure['database.className']}" />
+        <property name="url" value="#{propertyConfigure['database.url']}" />
+        <property name="username" value="#{propertyConfigure['database.username']}" />
+        <property name="password" value="#{propertyConfigure['database.password']}" />
+
+        <property name="maxActive" value="20" />
+        <property name="initialSize" value="1" />
+        <property name="maxWait" value="60000" />
+        <property name="minIdle" value="1" />
+
+        <property name="validationQuery" value="SELECT 1" /> <!-- 验证连接是否成功, SQL SELECT 指令至少要返回一行  (测试/验证连接池连接的SQL语句也因数据库而异)-->
+        <property name="testOnBorrow" value="false" /> <!-- 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。 -->
+        <property name="testOnReturn" value="false" /> <!-- 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 -->
+        <property name="minEvictableIdleTimeMillis" value="300000" /> <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <!-- 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。 -->
+        <property name="testWhileIdle" value="true" />
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="30000" />
+        <property name="maxOpenPreparedStatements" value="20" /><!-- 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。 -->
+        <!-- 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql5.5以下的版本中没有PSCache功能，建议关闭掉。5.5及以上版本有PSCache，建议开启。 -->
+        <property name="poolPreparedStatements" value="true" />
+        <!-- 指定每个PSCache连接上PSCache的大小 -->
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+
+        <!-- 配置监控统计拦截的filters 去掉后监控界面sql无法统计
+            开启web监控、开启sql防火墙 -->
+        <property name="filters" value="stat,wall"></property>
+    </bean>
+    <!-- 2、sqlSessionFactory的配置-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- MyBatis 的 XML 配置文件路径 -->
+        <property name="configLocation" value="classpath:mybatis/sqlSessionMap.xml"/>
+        <!-- mybatis的映射文件 -->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+    </bean>
+    <!-- 3、数据映射器类 -->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+        <property name="basePackage" value="com.boco.taotao.mapper"/>
+        <!-- 当是一个数据源的时候，下面的配置不是必须的；当是多个数据源时候，一定要指定sqlSessionFactory -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <!-- 附加：引入SqlSessionTemplate -->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory" />
+    </bean>
+</beans>
