@@ -68,5 +68,6 @@
 		</constructor-arg>
 		<constructor-arg name="poolConfig" ref="jedisPoolConfig"></constructor-arg>
 	</bean>
+    <!-- 通过xml文件的形式注入bean -->
 	<bean id="jedisClientCluster" class="com.boco.taotao.rest.dao.impl.JedisClientCluster"></bean>
 </beans>
