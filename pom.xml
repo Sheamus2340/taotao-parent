@@ -12,6 +12,7 @@
         <module>taotaomanager</module>
         <module>taotaorest</module>
         <module>taotaoportal</module>
+        <module>taotaosearch</module>
     </modules>
     <packaging>pom</packaging>
     <!-- 集中定义依赖版本号-->

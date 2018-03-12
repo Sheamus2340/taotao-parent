@@ -27,17 +27,15 @@
 		<property name="blockWhenExhausted" value="false" />
 	</bean>	
 	<!-- jedis客户端单机版 -->
-	<!--
 	<bean id="redisClient" class="redis.clients.jedis.JedisPool">
 		<constructor-arg name="host" value="192.168.25.153"></constructor-arg>
 		<constructor-arg name="port" value="6379"></constructor-arg>
 		<constructor-arg name="poolConfig" ref="jedisPoolConfig"></constructor-arg>
 	</bean>
 	<bean id="jedisClient" class="com.boco.taotao.rest.dao.impl.JedisClientSingle"/>
-	-->
 
 	<!-- jedis集群版配置 -->
-	<bean id="redisClient" class="redis.clients.jedis.JedisCluster">
+	<!--<bean id="redisClient" class="redis.clients.jedis.JedisCluster">
 		<constructor-arg name="nodes">
 			<set>
 				<bean class="redis.clients.jedis.HostAndPort">
@@ -67,7 +65,7 @@
 			</set>
 		</constructor-arg>
 		<constructor-arg name="poolConfig" ref="jedisPoolConfig"></constructor-arg>
-	</bean>
+	</bean>-->
     <!-- 通过xml文件的形式注入bean -->
 	<bean id="jedisClientCluster" class="com.boco.taotao.rest.dao.impl.JedisClientCluster"></bean>
 </beans>
