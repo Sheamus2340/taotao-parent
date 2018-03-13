@@ -3,8 +3,8 @@ package com.boco.taotao.search.dao.impl;
 import com.boco.taotao.search.dao.SearchDao;
 import com.boco.taotao.search.pojo.Item;
 import com.boco.taotao.search.vo.SearchResult;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
@@ -21,14 +21,14 @@ import java.util.Map;
 @Repository
 public class SearchDaoImpl implements SearchDao {
     @Autowired
-    private SolrServer solrServer;
+    private SolrClient solrClient;
 
     @Override
     public SearchResult search(SolrQuery query) throws Exception {
         //返回值对象
         SearchResult result = new SearchResult();
         //根据查询条件查询索引库
-        QueryResponse queryResponse = solrServer.query(query);
+        QueryResponse queryResponse = solrClient.query(query);
         //取查询结果
         SolrDocumentList solrDocumentList = queryResponse.getResults();
         //取查询结果总数量

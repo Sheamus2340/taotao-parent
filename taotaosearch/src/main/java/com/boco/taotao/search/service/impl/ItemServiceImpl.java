@@ -4,7 +4,7 @@ import com.boco.taotao.search.mapper.ItemMapper;
 import com.boco.taotao.search.pojo.Item;
 import com.boco.taotao.search.service.ItemService;
 import com.boco.taotao.vo.TaotaoResult;
-import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class ItemServiceImpl implements ItemService {
     private ItemMapper itemMapper;
 
     @Autowired
-    private SolrServer solrServer;
+    private SolrClient solrClient;
 
     @Override
     public TaotaoResult importAllItems() {
@@ -39,8 +39,8 @@ public class ItemServiceImpl implements ItemService {
             solrInputDocument.setField("item_desc", item.getItem_des());
             //写入索引库
             try {
-                solrServer.add(solrInputDocument);
-                solrServer.commit();
+                solrClient.add(solrInputDocument);
+                solrClient.commit();
             } catch (Exception e) {
                 e.printStackTrace();
                 TaotaoResult.fail(e);
