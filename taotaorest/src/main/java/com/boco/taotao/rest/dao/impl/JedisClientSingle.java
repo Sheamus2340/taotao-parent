@@ -2,7 +2,6 @@ package com.boco.taotao.rest.dao.impl;
 
 import com.boco.taotao.rest.dao.JedisClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -10,7 +9,6 @@ import redis.clients.jedis.JedisPool;
  * 用于单机调用的redis的dao
  * Created by Sheamus on 2018/2/9.
  */
-@Repository(value = "jedisClient")
 public class JedisClientSingle implements JedisClient {
 
     @Autowired
