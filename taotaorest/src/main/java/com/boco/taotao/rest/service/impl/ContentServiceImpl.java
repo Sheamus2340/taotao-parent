@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class ContentServiceImpl implements ContentService {
 
     @Autowired
     private TbContentMapper contentMapper;
-    @Autowired
+    @Resource(mappedName="jedisClient")
     private JedisClient jedisClient;
     /*@Value("${INDEX_CONTENT_REDIS_KEY}")*/
     @Value(value="#{propertyConfigure['INDEX_CONTENT_REDIS_KEY']}")

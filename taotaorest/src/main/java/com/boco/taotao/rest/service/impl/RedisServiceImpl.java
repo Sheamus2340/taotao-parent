@@ -4,9 +4,10 @@ import com.boco.taotao.rest.dao.JedisClient;
 import com.boco.taotao.rest.service.RedisService;
 import com.boco.taotao.util.ExceptionUtil;
 import com.boco.taotao.vo.TaotaoResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * Created by Sheamus on 2018/2/10.
@@ -14,8 +15,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class RedisServiceImpl implements RedisService {
 
-    @Autowired
+    @Resource(mappedName = "jedisClient")
     private JedisClient jedisClient;
+
     @Value("${INDEX_CONTENT_REDIS_KEY}")
     private String INDEX_CONTENT_REDIS_KEY;
 
