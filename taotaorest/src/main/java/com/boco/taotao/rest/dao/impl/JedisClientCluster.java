@@ -1,6 +1,7 @@
 package com.boco.taotao.rest.dao.impl;
 
 import com.boco.taotao.rest.dao.JedisClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.JedisCluster;
 
 /**
@@ -8,51 +9,51 @@ import redis.clients.jedis.JedisCluster;
  * Created by Sheamus on 2018/2/10.
  */
 public class JedisClientCluster implements JedisClient {
-    //@Autowired
-    private JedisCluster redisClient;
+    @Autowired
+    private JedisCluster jedisClientCluster;
 
     @Override
     public String get(String key) {
-        return redisClient.get(key);
+        return jedisClientCluster.get(key);
     }
 
     @Override
     public String set(String key, String value) {
-        return redisClient.set(key, value);
+        return jedisClientCluster.set(key, value);
     }
 
     @Override
     public String hget(String hkey, String key) {
-        return redisClient.hget(hkey, key);
+        return jedisClientCluster.hget(hkey, key);
     }
 
     @Override
     public long hset(String hkey, String key, String value) {
-        return redisClient.hset(hkey, key, value);
+        return jedisClientCluster.hset(hkey, key, value);
     }
 
     @Override
     public long incr(String key) {
-        return redisClient.incr(key);
+        return jedisClientCluster.incr(key);
     }
 
     @Override
     public long expire(String key, int second) {
-        return redisClient.expire(key, second);
+        return jedisClientCluster.expire(key, second);
     }
 
     @Override
     public long ttl(String key) {
-        return redisClient.ttl(key);
+        return jedisClientCluster.ttl(key);
     }
 
     @Override
     public long del(String key) {
-        return redisClient.del(key);
+        return jedisClientCluster.del(key);
     }
 
     @Override
     public long hdel(String hkey, String key) {
-        return redisClient.hdel(hkey, key);
+        return jedisClientCluster.hdel(hkey, key);
     }
 }
