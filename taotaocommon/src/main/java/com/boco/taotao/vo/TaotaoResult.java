@@ -1,5 +1,6 @@
 package com.boco.taotao.vo;
 
+import com.boco.taotao.util.ExceptionUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,6 +25,10 @@ public class TaotaoResult {
  
     public static TaotaoResult build(Integer status, String msg, Object data) {
         return new TaotaoResult(status, msg, data);
+    }
+
+    public static TaotaoResult fail(Throwable e) {
+        return new TaotaoResult().build(500, ExceptionUtil.getStackTrace(e));
     }
  
     public static TaotaoResult ok(Object data) {
