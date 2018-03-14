@@ -12,6 +12,8 @@ import com.boco.taotao.rest.service.ItemService;
 import com.boco.taotao.vo.JsonUtils;
 import com.boco.taotao.vo.TaotaoResult;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ import java.util.List;
  */
 @Service
 public class ItemServiceImpl implements ItemService {
+    private static final Logger logger = LoggerFactory.getLogger(ItemServiceImpl.class);
 
     @Autowired
     private TbItemMapper itemMapper;
@@ -65,6 +68,7 @@ public class ItemServiceImpl implements ItemService {
             String json = jedisClient.get(key);
             if(!StringUtils.isBlank(json)) {
                 TbItem tbItem = JsonUtils.jsonToPojo(json, TbItem.class);
+                logger.info("取缓存中的数据");
                 return TaotaoResult.ok(tbItem);
             }
         } catch (Exception e) {
@@ -79,6 +83,7 @@ public class ItemServiceImpl implements ItemService {
             jedisClient.set(key, JsonUtils.objectToJson(item));
             //设置key的过期时间
             jedisClient.expire(key,Integer.parseInt(REDIS_ITEM_EXPIRE));
+            logger.info("数据录入缓存");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,6 +103,7 @@ public class ItemServiceImpl implements ItemService {
             String json = jedisClient.get(key);
             if(!StringUtils.isBlank(json)) {
                 TbItemDesc itemDesc = JsonUtils.jsonToPojo(json, TbItemDesc.class);
+                logger.info("取缓存中的数据");
                 return TaotaoResult.ok(itemDesc);
             }
         } catch(Exception e) {
@@ -110,6 +116,7 @@ public class ItemServiceImpl implements ItemService {
             String key = REDIS_ITEM_KEY + ":" + itemId + ":" + "desc";
             jedisClient.set(key,JsonUtils.objectToJson(itemDesc));
             jedisClient.expire(key,Integer.parseInt(REDIS_ITEM_EXPIRE));
+            logger.info("数据录入缓存");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,6 +136,7 @@ public class ItemServiceImpl implements ItemService {
             String json = jedisClient.get(key);
             if(!StringUtils.isBlank(json)) {
                 TbItemParamItem itemParamItem = JsonUtils.jsonToPojo(json, TbItemParamItem.class);
+                logger.info("取缓存中的数据");
                 return TaotaoResult.ok(itemParamItem);
             }
         } catch(Exception e) {
@@ -146,6 +154,7 @@ public class ItemServiceImpl implements ItemService {
                 String key = REDIS_ITEM_KEY + ":" + itemId + ":" + "param";
                 jedisClient.set(key,JsonUtils.objectToJson(itemParamItem));
                 jedisClient.expire(key,Integer.parseInt(REDIS_ITEM_EXPIRE));
+                logger.info("数据录入缓存");
             } catch (Exception e) {
                 e.printStackTrace();
             }
