@@ -45,7 +45,7 @@ public class SearchDaoImpl implements SearchDao {
             //取高亮显示的结果
             List<String> list = highlighting.get(solrDocument.get("id")).get("item_title");
             String title = "";
-            if (list != null && list.size()>0) {
+            if (list != null && list.size() > 0) {
                 title = list.get(0);
             } else {
                 title = (String) solrDocument.get("item_title");
