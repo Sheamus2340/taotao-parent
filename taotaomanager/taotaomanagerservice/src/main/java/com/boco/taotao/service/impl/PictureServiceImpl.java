@@ -22,17 +22,17 @@ import java.io.InputStream;
 public class PictureServiceImpl implements PictureService {
     private Logger logger = LoggerFactory.getLogger(PictureServiceImpl.class);
 
-    @Value(value="#{propertyConfigure['ftp.host']}")
+    @Value(value="#{propertyConfigure['FTP_IP']}")
     private String host;
-    @Value(value="#{propertyConfigure['ftp.port']}")
+    @Value(value="#{propertyConfigure['FTP_PORT']}")
     private Integer port;
-    @Value(value="#{propertyConfigure['ftp.username']}")
+    @Value(value="#{propertyConfigure['FTP_USERNAME']}")
     private String username;
-    @Value(value="#{propertyConfigure['ftp.password']}")
+    @Value(value="#{propertyConfigure['FTP_PASSWORD']}")
     private String password;
-    @Value(value="#{propertyConfigure['ftp.basePth']}")
+    @Value(value="#{propertyConfigure['FTP_BASEPATH']}")
     private String basePath;
-    @Value(value="#{propertyConfigure['ftp.imageBaseUrl']}")
+    @Value(value="#{propertyConfigure['FTP_IMAGEBASEURL']}")
     private String imageBaseUrl;
 
     @Override
