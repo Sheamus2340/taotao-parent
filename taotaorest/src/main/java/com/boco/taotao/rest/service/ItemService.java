@@ -7,4 +7,6 @@ import com.boco.taotao.vo.TaotaoResult;
  */
 public interface ItemService {
     TaotaoResult getItemBaseInfo(long itemId);
+    TaotaoResult getItemDescInfo(long itemId);
+    TaotaoResult getItemParamInfo(long itemId);
 }
