@@ -46,7 +46,7 @@ public class ItemServiceImpl implements ItemService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return new ItemInfo();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class ItemServiceImpl implements ItemService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return "";
     }
 
     @Override
@@ -97,27 +97,30 @@ public class ItemServiceImpl implements ItemService {
      * @return
      */
     private String encapsulationHtml(TbItemParamItem itemParamItem) {
-        String paramData = itemParamItem.getParamData();
-        //生成HTML
-        //把规格参数JSON数据转换成java对象
-        List<Map> jsonList = JsonUtils.jsonToList(paramData, Map.class);
-        StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append("<table cellpadding=\"0\" cellspacing=\"1\" width=\"100%\" border=\"0\" class=\"Ptable\">\n");
-        stringBuffer.append("    <tbody>\n");
-        for (Map m1 : jsonList) {
-            stringBuffer.append("        <tr>\n");
-            stringBuffer.append("            <th class=\"tdTitle\" colspan=\"2\">" + m1.get("group") + "</th>\n");
-            stringBuffer.append("        </tr>\n");
-            List<Map> list2 = (List<Map>) m1.get("params");
-            for (Map m2 : list2) {
+        if(itemParamItem != null) {
+            String paramData = itemParamItem.getParamData();
+            //生成HTML
+            //把规格参数JSON数据转换成java对象
+            List<Map> jsonList = JsonUtils.jsonToList(paramData, Map.class);
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("<table cellpadding=\"0\" cellspacing=\"1\" width=\"100%\" border=\"0\" class=\"Ptable\">\n");
+            stringBuffer.append("    <tbody>\n");
+            for (Map m1 : jsonList) {
                 stringBuffer.append("        <tr>\n");
-                stringBuffer.append("            <td class=\"tdTitle\">" + m2.get("k") + "</td>\n");
-                stringBuffer.append("            <td>" + m2.get("v") + "</td>\n");
+                stringBuffer.append("            <th class=\"tdTitle\" colspan=\"2\">" + m1.get("group") + "</th>\n");
                 stringBuffer.append("        </tr>\n");
-            }
-        } stringBuffer.append("    </tbody>\n");
-        stringBuffer.append("</table>");
-        return stringBuffer.toString();
+                List<Map> list2 = (List<Map>) m1.get("params");
+                for (Map m2 : list2) {
+                    stringBuffer.append("        <tr>\n");
+                    stringBuffer.append("            <td class=\"tdTitle\">" + m2.get("k") + "</td>\n");
+                    stringBuffer.append("            <td>" + m2.get("v") + "</td>\n");
+                    stringBuffer.append("        </tr>\n");
+                }
+            } stringBuffer.append("    </tbody>\n");
+            stringBuffer.append("</table>");
+            return stringBuffer.toString();
+        }
+        return "";
     }
 
 

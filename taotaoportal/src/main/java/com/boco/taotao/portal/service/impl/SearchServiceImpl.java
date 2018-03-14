@@ -35,8 +35,7 @@ public class SearchServiceImpl implements SearchService {
             }
         } catch(Exception e) {
             e.printStackTrace();
-
         }
-        return null;
+        return new SearchResult();
     }
 }
