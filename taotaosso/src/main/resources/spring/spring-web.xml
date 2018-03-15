@@ -20,5 +20,19 @@
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+    <!-- 资源映射,
+        location元素表示webapp目录下的static包下的所有文件；
+        mapping元素表示以/static开头的所有请求路径，如/static/a 或者/static/a/b；
+        该配置的作用是：DispatcherServlet不会拦截以/static开头的所有请求路径，并当作静态资源交由Servlet处理。
+    -->
+    <mvc:resources location="/WEB-INF/css/" mapping="/css/**"/>
+    <mvc:resources location="/WEB-INF/js/" mapping="/js/**"/>
 
+    <!-- 添加文件上传解析器 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设置文件上传的最大文件大小 ：5 * 1024 * 1024 -->
+        <property name="maxUploadSize" value="5242880"/>
+        <!-- 设置文件上传的默认的字符集 -->
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
 </beans>

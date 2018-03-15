@@ -66,7 +66,7 @@
   <servlet-mapping>
     <servlet-name>taotao-sso</servlet-name>
     <!-- 会拦截所有请求包括静态资源。需要在spring-web.xml中添加静态资源的映射。 -->
-    <url-pattern>/sso/*</url-pattern>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
 
 </web-app>
