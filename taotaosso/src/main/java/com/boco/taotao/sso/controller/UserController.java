@@ -1,5 +1,6 @@
 package com.boco.taotao.sso.controller;
 
+import com.boco.taotao.pojo.TbUser;
 import com.boco.taotao.sso.service.UserService;
 import com.boco.taotao.vo.TaotaoResult;
 import org.apache.commons.lang3.StringUtils;
@@ -8,6 +9,7 @@ import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -73,6 +75,79 @@ public class UserController {
             return mappingJacksonValue;
         }
         return result;
+    }
+
+    /**
+     * 用户注册接口
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/register",method = RequestMethod.POST)
+    @ResponseBody
+    public TaotaoResult registerUser(TbUser user) {
+        try {
+            TaotaoResult result = userService.createUser(user);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return TaotaoResult.fail(e);
+        }
+    }
+
+    /**
+     * 登录接口
+     * @param username
+     * @param password
+     * @return
+     */
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @ResponseBody
+    public TaotaoResult login(String username,String password) {
+        try {
+            return userService.userLogin(username,password);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return TaotaoResult.fail(e);
+        }
+    }
+
+    /**
+     * 通过token来获取用户信息
+     * @param token
+     * @param callback
+     * @return
+     */
+    @RequestMapping(value = "/token/{token}",method = RequestMethod.GET)
+    @ResponseBody
+    public Object getUserByToken(@PathVariable String token,String callback) {
+        TaotaoResult result = null;
+        try {
+            result = userService.getUserByToken(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = TaotaoResult.fail(e);
+        }
+        //判断callback是否为null
+        if(StringUtils.isBlank(callback)) {
+            //返回正常数据
+            return result;
+        }
+        //否则使用JSONP
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(result);
+        mappingJacksonValue.setJsonpFunction(callback);
+        return mappingJacksonValue;
+    }
+
+    @RequestMapping(value = "/signout/{token}")
+    @ResponseBody
+    public TaotaoResult signOut(@PathVariable String token) {
+        try {
+            TaotaoResult result = userService.signOut(token);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return TaotaoResult.fail(e);
+        }
     }
 
 }
