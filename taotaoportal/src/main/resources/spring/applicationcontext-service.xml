@@ -10,5 +10,5 @@
     <!-- 加载配置文件 -->
     <context:property-placeholder location="classpath:resource/*.properties" />
     <!-- 添加service层的bean的自定注入到Spring容器中 -->
-    <context:component-scan base-package="com.boco.taotao.portal.service"/>
+    <context:component-scan base-package="com.boco.taotao.portal.interceptor,com.boco.taotao.portal.service"/>
 </beans>
