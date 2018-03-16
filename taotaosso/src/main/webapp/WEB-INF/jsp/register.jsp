@@ -146,7 +146,8 @@
 				return true;
 		},
 		beforeSubmit:function() {
-				//检查用户是否已经被占用
+				//检查用户是否已经被占用,后面的url后面加上r参数的目的是让浏览器不缓存该请求的结果
+                //浏览器有一个特性是：当一定时间返回内请求同一个url，浏览器会使用缓存的数据；
 				$.ajax({
 	            	url : REGISTER.param.surl + "/user/check/"+escape($("#regName").val())+"/1?r=" + Math.random(),
 	            	success : function(data) {

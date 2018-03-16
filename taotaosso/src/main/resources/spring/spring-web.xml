@@ -14,7 +14,7 @@
     <context:component-scan base-package="com.boco.taotao.sso.controller"/>
     <!-- 2、配置注解驱动 -->
     <mvc:annotation-driven/>
-    <!-- 3、配置视图解析器 -->
+    <!-- 3、配置逻辑视图解析器 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <!-- 配置视图解析器的前缀和后缀，这样在controller中就不用配置路径，只要配置jsp的名称就可以了 -->
         <property name="prefix" value="/WEB-INF/jsp/"/>
