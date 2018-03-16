@@ -54,7 +54,7 @@
             </div>
         </div>
         <div class="free-regist">
-            <span><a href="/user/showRegister" clstag="passport|keycount|login|08">免费注册&gt;&gt;</a></span>
+            <span><a href="/page/register" clstag="passport|keycount|login|08">免费注册&gt;&gt;</a></span>
         </div>
     </div>
 </form>
@@ -77,7 +77,7 @@
 			doLogin:function() {
 				$.post("/user/login", $("#formlogin").serialize(),function(data){
 					if (data.status == 200) {
-						alert("登录成功！");
+						//alert("登录成功！");
 						if (redirectUrl == "") {
 							location.href = "http://localhost:8082";
 						} else {
