@@ -138,16 +138,25 @@ public class UserController {
         return mappingJacksonValue;
     }
 
-    @RequestMapping(value = "/signout/{token}")
+    @RequestMapping(value = "/logout/{token}")
     @ResponseBody
-    public TaotaoResult signOut(@PathVariable String token) {
+    public Object logout(@PathVariable String token,String callback) {
+        TaotaoResult result = null;
         try {
-            TaotaoResult result = userService.signOut(token);
-            return result;
+            result = userService.signOut(token);
         } catch (Exception e) {
             e.printStackTrace();
-            return TaotaoResult.fail(e);
+            result = TaotaoResult.fail(e);
         }
+        //判断callback是否为null
+        if(StringUtils.isBlank(callback)) {
+            //返回正常数据
+            return result;
+        }
+        //否则使用JSONP
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(result);
+        mappingJacksonValue.setJsonpFunction(callback);
+        return mappingJacksonValue;
     }
 
 }
