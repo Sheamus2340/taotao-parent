@@ -21,6 +21,7 @@ public class IndexController {
     @RequestMapping("/index")
     public String showIndex(Model model) {
         String adJson = contentService.getContentList();
+        //广告位的数据
         model.addAttribute("ad1",adJson);
         return "index";
     }

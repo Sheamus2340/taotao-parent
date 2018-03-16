@@ -5,6 +5,7 @@ import com.boco.taotao.pojo.TbUser;
 import com.boco.taotao.pojo.TbUserExample;
 import com.boco.taotao.sso.dao.JedisClient;
 import com.boco.taotao.sso.service.UserService;
+import com.boco.taotao.util.CookieUtils;
 import com.boco.taotao.vo.JsonUtils;
 import com.boco.taotao.vo.TaotaoResult;
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -70,7 +73,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public TaotaoResult userLogin(String username, String password) {
+    public TaotaoResult userLogin(String username, String password ,HttpServletRequest request, HttpServletResponse response) {
         //注意这里只进行用户名比对
         TbUserExample userExample = new TbUserExample();
         TbUserExample.Criteria criteria = userExample.createCriteria();
@@ -97,6 +100,8 @@ public class UserServiceImpl implements UserService {
                 jedisClient.set(key, JsonUtils.objectToJson(user));
                 //设置session的过期时间
                 jedisClient.expire(key,SSO_SESSION_EXPIRE);
+                //添加cookie的逻辑,有效期是关闭浏览器就失效（默认）
+                CookieUtils.setCookie(request,response,"TT_TOKEN",token);
                 return TaotaoResult.ok(token);
             }
         }
