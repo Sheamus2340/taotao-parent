@@ -67,7 +67,7 @@
     <!--拦截器的配置 -->
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/item/**"/>
+            <mvc:mapping path="/order/**"/>
             <bean name="loginInterceptor" class="com.boco.taotao.portal.interceptor.LoginInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
