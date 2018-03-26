@@ -42,6 +42,8 @@ public class LoginInterceptor implements HandlerInterceptor {
             return false;
         }
         //3. 如果取到用户信息就放行不拦截，返回true
+        //把用户信息放入Request
+        httpServletRequest.setAttribute("user", tbUser);
         return true;
     }
 
