@@ -1,11 +1,11 @@
 package com.boco.taotao.portal.service.impl;
 
+import com.boco.taotao.portal.pojo.Order;
 import com.boco.taotao.portal.service.OrderService;
 import com.boco.taotao.util.HttpClientUtil;
 import com.boco.taotao.vo.JsonUtils;
 import com.boco.taotao.vo.TaotaoResult;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 /**
